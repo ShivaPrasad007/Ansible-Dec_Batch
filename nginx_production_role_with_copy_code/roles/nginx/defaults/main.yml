@@ -1,0 +1,12 @@
+---
+# Default variables for NGINX role
+nginx_app_type: static  # Options: static, mern, flask, django
+nginx_domain: example.com
+nginx_root: /var/www/html
+nginx_proxy_port: 3000
+nginx_ssl: false
+nginx_ssl_cert: /etc/ssl/certs/ssl-cert-snakeoil.pem
+nginx_ssl_key: /etc/ssl/private/ssl-cert-snakeoil.key
+nginx_listen_port: 80
+nginx_server_name: "{{ nginx_domain }}"
+nginx_index_files: "index.html"

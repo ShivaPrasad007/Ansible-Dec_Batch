@@ -1,0 +1,11 @@
+---
+- name: Restart Flask app
+  shell: pkill -f "python3 app.py"
+  ignore_errors: yes
+  become: yes
+
+- name: Start Flask app after restart
+  shell: cd {{ flask_app_dir }} && nohup {{ flask_start_command }} </dev/null >/dev/null 2>&1 &
+  async: 3600
+  poll: 0
+  become: yes

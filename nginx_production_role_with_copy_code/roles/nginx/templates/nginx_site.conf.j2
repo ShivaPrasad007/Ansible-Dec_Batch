@@ -1,0 +1,21 @@
+server {
+    listen {{ nginx_listen_port }};
+    server_name {{ nginx_server_name }};
+
+    {% if nginx_app_type == 'static' %}
+    root {{ nginx_root }};
+    index {{ nginx_index_files }};
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+    {% elif nginx_app_type in ['mern', 'flask', 'django'] %}
+    location / {
+        proxy_pass http://127.0.0.1:{{ nginx_proxy_port }};
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    {% endif %}
+}

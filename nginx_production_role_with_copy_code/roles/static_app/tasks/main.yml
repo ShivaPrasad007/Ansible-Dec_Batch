@@ -1,0 +1,16 @@
+---
+- name: Create static app directory
+  file:
+    path: "{{ static_app_root }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Copy static files
+  copy:
+    src: "{{ static_app_src }}"
+    dest: "{{ static_app_root }}"
+    owner: www-data
+    group: www-data
+  when: static_app_src is defined

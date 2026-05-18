@@ -1,0 +1,7 @@
+---
+express_app_name: my-express-app
+express_app_port: 3000
+express_app_dir: /opt/app/{{ express_app_name }}
+express_node_version: 18
+express_start_command: "npm start"
+express_user: nodejs

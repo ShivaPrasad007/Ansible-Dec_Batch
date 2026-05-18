@@ -1,0 +1,7 @@
+---
+- name: Simple playbook
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ping all hosts
+      ping:

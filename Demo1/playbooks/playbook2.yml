@@ -1,0 +1,9 @@
+---
+- name: Print Ansible built-in facts
+  hosts: all
+  tasks:
+    - name: Gather facts
+      setup:
+    - name: Print all facts
+      debug:
+        var: ansible_facts

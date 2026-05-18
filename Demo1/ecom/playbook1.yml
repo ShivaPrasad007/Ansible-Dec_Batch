@@ -1,0 +1,13 @@
+---
+- name: Install Packages
+  hosts: webservers
+  tasks:
+    - name: Install packages from inventory File
+      apt:
+        name: "{{my_package}}"
+        state: present
+      become: yes
+
+    - name: Print Outputs
+      debug:
+        msg: "{{my_package}} has been installed on {{env}} environment"

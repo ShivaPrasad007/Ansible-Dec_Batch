@@ -1,0 +1,8 @@
+---
+flask_app_name: my-flask-app
+flask_app_port: 8000
+flask_app_dir: /opt/app/{{ flask_app_name }}
+flask_python_version: "3"
+flask_requirements_file: requirements.txt
+flask_start_command: "python3 app.py"
+flask_user: flask

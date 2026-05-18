@@ -1,0 +1,4 @@
+---
+static_app_name: my-static-app
+static_app_root: /var/www/{{ static_app_name }}
+static_index_file: index.html

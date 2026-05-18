@@ -1,0 +1,50 @@
+---
+- name: Install NGINX
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure NGINX is started and enabled
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Create document root directory
+  file:
+    path: "{{ nginx_root }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+  when: nginx_app_type == 'static'
+
+- name: Copy static files
+  copy:
+    src: "{{ nginx_static_src }}"
+    dest: "{{ nginx_root }}"
+    owner: www-data
+    group: www-data
+  when: nginx_app_type == 'static' and nginx_static_src is defined
+
+- name: Generate NGINX configuration
+  template:
+    src: nginx_site.conf.j2
+    dest: "/etc/nginx/sites-available/{{ nginx_domain }}"
+    mode: '0644'
+  notify: Reload NGINX
+
+- name: Enable site
+  file:
+    src: "/etc/nginx/sites-available/{{ nginx_domain }}"
+    dest: "/etc/nginx/sites-enabled/{{ nginx_domain }}"
+    state: link
+  notify: Reload NGINX
+
+- name: Remove default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Reload NGINX

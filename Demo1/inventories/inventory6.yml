@@ -1,0 +1,50 @@
+---
+all:
+  vars:
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: /Users/itd/Training/Ansible/local.pem
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    
+    # Privilege Escalation
+    ansible_become: yes
+    ansible_become_method: sudo
+    ansible_become_user: root
+
+  children:
+    production:
+      children:
+        prod_web_servers:
+          hosts:
+            web1:
+              ansible_host: 192.168.1.10
+            web2:
+              ansible_host: 192.168.1.11
+
+        prod_app_servers:
+          hosts:
+            app1:
+              ansible_host: 192.168.1.20
+            app2:
+              ansible_host: 192.168.1.21
+
+        prod_db_servers:
+          hosts:
+            db1:
+              ansible_host: 192.168.1.30
+
+    staging:
+      children:
+        stag_web_servers:
+          hosts:
+            stag-web1:
+              ansible_host: 192.168.2.10
+
+        stag_app_servers:
+          hosts:
+            stag-app1:
+              ansible_host: 192.168.2.20
+
+        stag_db_servers:
+          hosts:
+            stag-db1:
+              ansible_host: 192.168.2.30

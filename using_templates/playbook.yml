@@ -1,0 +1,44 @@
+---
+- name: Demo on Templates
+  hosts: web1
+  become: yes
+  vars:
+    index_file: index2.html
+    webiste_name: itdefined.com
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Copy Source code
+      template:
+        src: templates/{{index_file}}
+        dest: /var/www/html/{{index_file}}
+
+    - name: Copy {{webiste_name}} nginx config
+      template:
+        src: templates/website.conf.j2
+        dest: /etc/nginx/sites-available/{{webiste_name}}
+        mode: '0644'
+        
+    - name: Enable {{webiste_name}} site
+      file:
+        src: /etc/nginx/sites-available/{{webiste_name}}
+        dest: /etc/nginx/sites-enabled/{{webiste_name}}
+        state: link
+        force: yes
+        
+    - name: Remove default nginx site from sites-enabled
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+        
+    - name: Restart nginx
+      become: yes
+      service: 
+        name: nginx
+        state: restarted
+
+

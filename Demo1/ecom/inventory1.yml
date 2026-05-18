@@ -1,0 +1,20 @@
+all:
+  children:
+    webservers:
+      vars:
+        env: production
+      hosts:
+        web1:
+          ansible_host: 13.203.224.116
+          my_package: nginx
+          env: dev
+        web2:
+          ansible_host: 3.6.160.218
+          my_package: apache2
+          env: test
+    dbservers:
+      hosts:
+        db1:
+          ansible_host: 13.203.224.116
+          my_package: mysql
+          env: dev

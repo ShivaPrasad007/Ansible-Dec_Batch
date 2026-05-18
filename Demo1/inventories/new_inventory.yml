@@ -1,0 +1,18 @@
+all:
+  children:
+    webservers:
+      hosts:
+        web1.example.com:
+          ansible_host: 192.168.1.10
+          ansible_user: ubuntu
+        web2.example.com:
+          ansible_host: 192.168.1.11
+          ansible_user: ubuntu
+    dbservers:
+      hosts:
+        db1.example.com:
+          ansible_host: 192.168.1.20
+          ansible_user: centos
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'

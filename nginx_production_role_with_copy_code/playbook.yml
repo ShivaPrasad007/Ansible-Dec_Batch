@@ -1,0 +1,59 @@
+---
+# Example playbook deploying different app types with NGINX
+
+- name: Deploy Express App with NGINX
+  hosts: express_servers
+  become: yes
+
+  roles:
+    - role: express_app
+      vars:
+        express_app_src: files/express/
+        express_app_port: 3000
+    - role: nginx
+      vars:
+        nginx_app_type: mern
+        nginx_domain: express.example.com
+        nginx_proxy_port: 3000
+
+- name: Deploy Flask App with NGINX
+  hosts: flask_servers
+  become: yes
+  roles:
+    - role: flask_app
+      vars:
+        flask_app_src: files/flask/
+        flask_app_port: 8000
+    - role: nginx
+      vars:
+        nginx_app_type: flask
+        nginx_domain: flask.example.com
+        nginx_proxy_port: 8000
+
+- name: Deploy Java App with NGINX
+  hosts: java_servers
+  become: yes
+  roles:
+    - role: java_app
+      vars:
+        java_app_src: files/java/
+        java_app_port: 8080
+    - role: nginx
+      vars:
+        nginx_app_type: django  # or custom, but using proxy
+        nginx_domain: java.example.com
+        nginx_proxy_port: 8080
+
+- name: Deploy Static HTML with NGINX
+  hosts: static_servers
+  become: yes
+  roles:
+    - role: static_app
+      vars:
+        static_app_src: files/static/
+        static_app_root: /var/www/static
+    - role: nginx
+      vars:
+        nginx_app_type: static
+        nginx_domain: static.example.com
+        nginx_root: /var/www/static

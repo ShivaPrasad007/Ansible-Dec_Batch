@@ -1,0 +1,150 @@
+---
+# =============================================================================
+# ANSIBLE INVENTORY VARIABLE SCOPES EXPLAINED
+# =============================================================================
+# Variables in Ansible have different scopes (levels of priority).
+# Understanding scope helps you know which variable value will be used.
+#
+# SCOPE HIERARCHY (lowest to highest priority):
+# 1. all group vars     - Applied to ALL hosts (lowest priority)
+# 2. parent group vars  - Applied to child groups
+# 3. child group vars   - Applied to hosts in that group
+# 4. host vars          - Applied to specific host (highest priority)
+#
+# Higher priority OVERRIDES lower priority!
+# =============================================================================
+
+all:
+  # ---------------------------------------------------------------------------
+  # SCOPE 1: ALL GROUP VARIABLES (Lowest Priority)
+  # These apply to EVERY host in the inventory
+  # ---------------------------------------------------------------------------
+  vars:
+    # Default values for all hosts
+    environment: default
+    log_level: info
+    backup_enabled: false
+    ntp_server: time.google.com
+    admin_email: admin@company.com
+    
+    # Connection defaults
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: /Users/itd/Training/Ansible/local.pem
+
+  children:
+    # -------------------------------------------------------------------------
+    # SCOPE 2: PARENT GROUP VARIABLES
+    # These override 'all' vars for hosts in this group and its children
+    # -------------------------------------------------------------------------
+    
+    production:
+      vars:
+        # Overrides 'all' vars for all production hosts
+        environment: production      # Overrides: default -> production
+        log_level: warn              # Overrides: info -> warn
+        backup_enabled: true         # Overrides: false -> true
+        monitoring_enabled: true     # New variable (not in 'all')
+      
+      children:
+        # ---------------------------------------------------------------------
+        # SCOPE 3: CHILD GROUP VARIABLES
+        # These override both 'all' and parent group vars
+        # ---------------------------------------------------------------------
+        
+        prod_webservers:
+          vars:
+            # Overrides parent 'production' vars
+            log_level: error         # Overrides: warn -> error (for web only)
+            http_port: 80            # New variable specific to webservers
+            https_port: 443
+          
+          hosts:
+            # -----------------------------------------------------------------
+            # SCOPE 4: HOST VARIABLES (Highest Priority)
+            # These override ALL other scopes
+            # -----------------------------------------------------------------
+            
+            web1:
+              ansible_host: 192.168.1.10
+              # Uses inherited values:
+              #   environment: production (from production group)
+              #   log_level: error (from prod_webservers group)
+              #   backup_enabled: true (from production group)
+            
+            web2:
+              ansible_host: 192.168.1.11
+              log_level: debug       # HOST OVERRIDE! debug instead of error
+              # This host has special debugging enabled
+            
+            web3:
+              ansible_host: 192.168.1.12
+              backup_enabled: false  # HOST OVERRIDE! No backup for this host
+              custom_setting: true   # Unique to this host only
+
+        prod_dbservers:
+          vars:
+            log_level: warn          # Different from webservers
+            db_port: 5432
+            max_connections: 500
+          
+          hosts:
+            db1:
+              ansible_host: 192.168.1.20
+              # Inherits: environment=production, log_level=warn
+            
+            db2:
+              ansible_host: 192.168.1.21
+              max_connections: 1000  # HOST OVERRIDE! More connections
+
+    staging:
+      vars:
+        environment: staging         # Overrides: default -> staging
+        log_level: debug             # Overrides: info -> debug
+        backup_enabled: false        # Same as default, but explicit
+      
+      children:
+        stag_webservers:
+          hosts:
+            stag-web1:
+              ansible_host: 192.168.2.10
+              # Inherits: environment=staging, log_level=debug
+
+# =============================================================================
+# VARIABLE RESOLUTION EXAMPLES:
+# =============================================================================
+#
+# For host 'web1':
+#   environment     = production  (from production group)
+#   log_level       = error       (from prod_webservers group)
+#   backup_enabled  = true        (from production group)
+#   ntp_server      = time.google.com (from all)
+#
+# For host 'web2':
+#   environment     = production  (from production group)
+#   log_level       = debug       (HOST OVERRIDE - highest priority!)
+#   backup_enabled  = true        (from production group)
+#
+# For host 'db2':
+#   environment     = production  (from production group)
+#   log_level       = warn        (from prod_dbservers group)
+#   max_connections = 1000        (HOST OVERRIDE!)
+#
+# For host 'stag-web1':
+#   environment     = staging     (from staging group)
+#   log_level       = debug       (from staging group)
+#   backup_enabled  = false       (from staging group)
+#
+# =============================================================================
+# TEST COMMANDS:
+# =============================================================================
+#
+# View all variables for a specific host:
+#   ansible -i inventory_scopes.yml web1 -m debug -a "var=hostvars[inventory_hostname]"
+#
+# Compare variables between hosts:
+#   ansible -i inventory_scopes.yml web1,web2 -m debug -a "var=log_level"
+#
+# View specific variable:
+#   ansible -i inventory_scopes.yml all -m debug -a "var=environment"
+#
+# =============================================================================

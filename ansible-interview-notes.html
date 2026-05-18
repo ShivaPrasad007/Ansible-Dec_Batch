@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansible Interview Questions & Answers</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Source+Code+Pro:wght@400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --question-color: #C41E3A;
+            --answer-color: #1a1a1a;
+            --accent-color: #8B0000;
+            --bg-light: #faf9f7;
+            --border-color: #e0ddd8;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+        }
+        
+        body {
+            font-family: 'Crimson Pro', Georgia, serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: var(--answer-color);
+            background: var(--bg-light);
+            padding: 40px 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        @media print {
+            body {
+                padding: 20px 40px;
+                background: white;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+        
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid var(--question-color);
+        }
+        
+        .header h1 {
+            font-size: 28pt;
+            color: var(--question-color);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 14pt;
+            color: #666;
+            font-style: italic;
+        }
+        
+        /* Section Styles */
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section-title {
+            font-size: 16pt;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background: linear-gradient(90deg, rgba(196, 30, 58, 0.1) 0%, transparent 100%);
+            border-left: 4px solid var(--question-color);
+        }
+        
+        /* Question & Answer Styles */
+        .qa-block {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        .qa-block:last-child {
+            border-bottom: none;
+        }
+        
+        .question {
+            font-size: 12pt;
+            font-weight: 700;
+            color: var(--question-color);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: var(--question-color);
+            color: white;
+            width: 28px;
+            height: 28px;
+            text-align: center;
+            line-height: 28px;
+            border-radius: 50%;
+            font-size: 10pt;
+            margin-right: 10px;
+        }
+        
+        .answer {
+            color: var(--answer-color);
+            padding-left: 38px;
+        }
+        
+        .answer p {
+            margin-bottom: 10px;
+        }
+        
+        .answer strong {
+            color: #333;
+        }
+        
+        /* List Styles */
+        .answer ul, .answer ol {
+            margin: 10px 0 10px 20px;
+        }
+        
+        .answer li {
+            margin-bottom: 5px;
+        }
+        
+        /* Code Block Styles */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Source Code Pro', 'Courier New', monospace;
+            font-size: 9pt;
+            line-height: 1.5;
+            margin: 12px 0;
+            border-left: 3px solid var(--question-color);
+        }
+        
+        code {
+            font-family: 'Source Code Pro', 'Courier New', monospace;
+            background: #f0eeeb;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 9pt;
+            color: #c41e3a;
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 10pt;
+        }
+        
+        th {
+            background: var(--question-color);
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        tr:nth-child(even) {
+            background: rgba(196, 30, 58, 0.03);
+        }
+        
+        /* Directory Tree Styles */
+        .tree {
+            background: #f8f7f5;
+            padding: 15px 20px;
+            border-radius: 6px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 9pt;
+            line-height: 1.6;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid var(--question-color);
+            text-align: center;
+            font-size: 10pt;
+            color: #666;
+        }
+        
+        /* Tips Box */
+        .tips-box {
+            background: linear-gradient(135deg, rgba(196, 30, 58, 0.05) 0%, rgba(139, 0, 0, 0.05) 100%);
+            border: 1px solid rgba(196, 30, 58, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .tips-box h4 {
+            color: var(--question-color);
+            margin-bottom: 10px;
+        }
+        
+        /* Flow diagram */
+        .flow {
+            background: #f8f7f5;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 10pt;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>ANSIBLE INTERVIEW QUESTIONS</h1>
+    <div class="subtitle">Quick Reference Notes for DevOps Interview Prep</div>
+</div>
+
+<!-- BASICS SECTION -->
+<div class="section">
+    <div class="section-title">BASICS (MUST KNOW)</div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">1</span>What is Ansible and why is it used in DevOps?
+        </div>
+        <div class="answer">
+            <p>Ansible is an open-source, agentless IT automation platform used to automate configuration management, application deployment, cloud provisioning, and task orchestration.</p>
+            <p><strong>Why it's used:</strong></p>
+            <ul>
+                <li>No agent installation required (uses SSH)</li>
+                <li>Simple YAML syntax (human-readable)</li>
+                <li>Idempotent operations (safe to run multiple times)</li>
+                <li>Push-based architecture (more secure)</li>
+                <li>Works across multiple platforms (Linux, Windows, cloud)</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">2</span>Explain Ansible Architecture
+        </div>
+        <div class="answer">
+            <p><strong>Components:</strong></p>
+            <ol>
+                <li><strong>Control Node</strong> - Machine where Ansible is installed (master)</li>
+                <li><strong>Managed Nodes</strong> - Target machines to be automated</li>
+                <li><strong>Inventory</strong> - File listing hosts and groups</li>
+                <li><strong>Modules</strong> - Pre-built scripts for specific tasks</li>
+                <li><strong>Playbooks</strong> - YAML files containing automation logic</li>
+                <li><strong>Plugins</strong> - Extensions for Ansible functionality</li>
+            </ol>
+            <p><strong>Flow:</strong></p>
+            <div class="flow">User → Control Node → SSH → Managed Node → Execute Module → Return Result</div>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">3</span>What is an Ansible Playbook? How is it structured?
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> YAML file defining what tasks should run on which hosts.</p>
+            <p><strong>Basic Structure:</strong></p>
+<pre><code>---
+- name: Description of play
+  hosts: target_group
+  become: yes/no
+  vars:
+    variable1: value1
+  tasks:
+    - name: Task 1 description
+      module_name:
+        param1: value1
+        param2: value2
+    - name: Task 2
+      module_name:
+        option: value
+  handlers:
+    - name: Restart service
+      service:
+        name: nginx
+        state: restarted</code></pre>
+            <p><strong>Key Elements:</strong></p>
+            <ul>
+                <li><code>hosts</code>: Target machines from inventory</li>
+                <li><code>tasks</code>: Steps to execute sequentially</li>
+                <li><code>vars</code>: Variables for this play</li>
+                <li><code>handlers</code>: Tasks triggered by notifications</li>
+                <li><code>become</code>: Privilege escalation (sudo)</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">4</span>What is an Inventory in Ansible?
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> Collection of managed hosts organized into groups.</p>
+            <p><strong>Types:</strong></p>
+            <ol>
+                <li><strong>Static Inventory</strong> - INI or YAML file with fixed host list</li>
+                <li><strong>Dynamic Inventory</strong> - Generated from cloud APIs (AWS, Azure, GCP)</li>
+            </ol>
+            <p><strong>Example (INI format):</strong></p>
+<pre><code>[webservers]
+web1.example.com
+web2.example.com
+
+[databases]
+db1.example.com
+db2.example.com
+
+[all:vars]
+ansible_user=admin
+ansible_ssh_private_key_file=~/.ssh/id_rsa</code></pre>
+            <p><strong>Example (YAML format):</strong></p>
+<pre><code>all:
+  children:
+    webservers:
+      hosts:
+        web1.example.com:
+        web2.example.com:
+    databases:
+      hosts:
+        db1.example.com:</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">5</span>What are Ansible Modules? Name commonly used ones
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> Reusable scripts that perform specific tasks.</p>
+            <p><strong>Common Modules:</strong></p>
+            <ul>
+                <li><strong>System:</strong> <code>user</code>, <code>group</code>, <code>file</code>, <code>service</code>, <code>systemd</code></li>
+                <li><strong>Package:</strong> <code>apt</code>, <code>yum</code>, <code>pip</code>, <code>npm</code></li>
+                <li><strong>File:</strong> <code>copy</code>, <code>template</code>, <code>lineinfile</code>, <code>stat</code></li>
+                <li><strong>Command:</strong> <code>shell</code>, <code>command</code>, <code>script</code></li>
+                <li><strong>Network:</strong> <code>uri</code>, <code>get_url</code>, <code>wait_for</code></li>
+                <li><strong>Cloud:</strong> <code>ec2</code>, <code>azure_vm</code>, <code>gcp_compute_instance</code></li>
+                <li><strong>Database:</strong> <code>mysql_user</code>, <code>postgresql_user</code></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">6</span>What is Idempotency in Ansible? Why important?
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> Running the same playbook multiple times produces the same result.</p>
+            <p><strong>Example:</strong></p>
+<pre><code>- name: Install nginx
+  apt:
+    name: nginx
+    state: present  # Idempotent - only installs if not present</code></pre>
+            <p><strong>Why Important:</strong></p>
+            <ul>
+                <li>Safe to re-run playbooks without side effects</li>
+                <li>Predictable state management</li>
+                <li>Ideal for configuration drift correction</li>
+                <li>Enables reliable automation</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">7</span>How do you install Ansible on Linux?
+        </div>
+        <div class="answer">
+            <p><strong>Ubuntu/Debian:</strong></p>
+<pre><code>sudo apt update
+sudo apt install -y ansible</code></pre>
+            <p><strong>RedHat/CentOS:</strong></p>
+<pre><code>sudo yum install -y ansible</code></pre>
+            <p><strong>Via pip:</strong></p>
+<pre><code>pip install ansible</code></pre>
+            <p><strong>Verify:</strong></p>
+<pre><code>ansible --version</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">8</span>Difference between Ansible, Puppet, Chef vs Terraform
+        </div>
+        <div class="answer">
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Ansible</th>
+                    <th>Puppet</th>
+                    <th>Chef</th>
+                    <th>Terraform</th>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td>Config Mgmt</td>
+                    <td>Config Mgmt</td>
+                    <td>Config Mgmt</td>
+                    <td>Infrastructure as Code</td>
+                </tr>
+                <tr>
+                    <td>Agent</td>
+                    <td>Agentless</td>
+                    <td>Agent-based</td>
+                    <td>Agent-based</td>
+                    <td>Agent-less</td>
+                </tr>
+                <tr>
+                    <td>Language</td>
+                    <td>YAML</td>
+                    <td>Ruby</td>
+                    <td>Ruby</td>
+                    <td>HCL</td>
+                </tr>
+                <tr>
+                    <td>Push/Pull</td>
+                    <td>Push</td>
+                    <td>Pull</td>
+                    <td>Pull</td>
+                    <td>Push</td>
+                </tr>
+                <tr>
+                    <td>Cloud Focus</td>
+                    <td>Low</td>
+                    <td>Low</td>
+                    <td>Low</td>
+                    <td>HIGH</td>
+                </tr>
+                <tr>
+                    <td>Learning Curve</td>
+                    <td>Easy</td>
+                    <td>Hard</td>
+                    <td>Hard</td>
+                    <td>Moderate</td>
+                </tr>
+            </table>
+            <p><strong>When to use what:</strong></p>
+            <ul>
+                <li><strong>Ansible:</strong> Configuration management, simple deployments</li>
+                <li><strong>Terraform:</strong> Infrastructure provisioning (VMs, networks)</li>
+                <li><strong>Puppet/Chef:</strong> Large-scale enterprise automation</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">9</span>What language are Ansible playbooks written in?
+        </div>
+        <div class="answer">
+            <p><strong>Answer:</strong> YAML (YAML Ain't Markup Language)</p>
+            <ul>
+                <li>Simple, readable syntax</li>
+                <li>Uses indentation for structure</li>
+                <li>Human-friendly format</li>
+                <li>No complex coding needed</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">10</span>How do you run a playbook from command line?
+        </div>
+        <div class="answer">
+<pre><code># Basic run
+ansible-playbook playbook.yml
+
+# Run on specific inventory
+ansible-playbook -i inventory.ini playbook.yml
+
+# Run on specific host
+ansible-playbook -i inventory.ini -l hostname playbook.yml
+
+# Run with extra variables
+ansible-playbook playbook.yml -e "variable=value"
+
+# Verbose output
+ansible-playbook -vvv playbook.yml
+
+# Dry-run (check mode)
+ansible-playbook --check playbook.yml
+
+# Become sudo
+ansible-playbook -b playbook.yml</code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- PLAYBOOKS, ROLES, VARIABLES SECTION -->
+<div class="section page-break">
+    <div class="section-title">PLAYBOOKS, ROLES, VARIABLES</div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">11</span>Explain playbook components: hosts, tasks, handlers, vars
+        </div>
+        <div class="answer">
+            <ul>
+                <li><strong>hosts:</strong> Target group/machine</li>
+                <li><strong>tasks:</strong> Steps executed sequentially</li>
+                <li><strong>vars:</strong> Variables for the play</li>
+                <li><strong>handlers:</strong> Tasks triggered by <code>notify</code></li>
+            </ul>
+            <p><strong>Example:</strong></p>
+<pre><code>- name: Configure web server
+  hosts: webservers
+  vars:
+    nginx_port: 80
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+      notify: Restart nginx
+  handlers:
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">12</span>What are handlers in Ansible? When to use them?
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> Tasks executed only if notified by other tasks.</p>
+            <p><strong>Use case:</strong> Restart services only when config changes</p>
+<pre><code>- name: Update nginx config
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+  notify: Restart nginx
+
+handlers:
+  - name: Restart nginx
+    service:
+      name: nginx
+      state: restarted</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">13</span>What are Ansible roles? How do they promote modularity?
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> Organized collection of tasks, handlers, vars, templates, and files.</p>
+            <p><strong>Benefits:</strong></p>
+            <ul>
+                <li>Reusable across playbooks</li>
+                <li>Organized structure</li>
+                <li>Share via Ansible Galaxy</li>
+                <li>Easier maintenance</li>
+            </ul>
+            <p><strong>Directory Structure:</strong></p>
+<div class="tree">my_role/
+├── tasks/
+│   └── main.yml
+├── handlers/
+│   └── main.yml
+├── vars/
+│   └── main.yml
+├── templates/
+│   └── config.j2
+├── files/
+│   └── data.txt
+└── README.md</div>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">14</span>What is the typical directory structure of a role?
+        </div>
+        <div class="answer">
+<div class="tree">role_name/
+├── defaults/
+│   └── main.yml          # Default variables
+├── files/
+│   └── config.conf       # Static files
+├── handlers/
+│   └── main.yml          # Handlers/service restart
+├── meta/
+│   └── main.yml          # Role dependencies
+├── tasks/
+│   └── main.yml          # Main tasks
+├── templates/
+│   └── config.j2         # Jinja2 templates
+├── tests/
+│   └── test.yml          # Test playbook
+├── vars/
+│   └── main.yml          # Variables
+└── README.md             # Documentation</div>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">15</span>What are the different types of variables and their precedence?
+        </div>
+        <div class="answer">
+            <p><strong>Precedence (highest to lowest):</strong></p>
+            <ol>
+                <li>Command line (-e flag)</li>
+                <li>Task vars</li>
+                <li>Block vars</li>
+                <li>Play vars</li>
+                <li>Role vars</li>
+                <li>Host vars</li>
+                <li>Group vars</li>
+                <li>Inventory vars</li>
+                <li>Role defaults</li>
+            </ol>
+            <p><strong>Types:</strong></p>
+            <ul>
+                <li><strong>Facts</strong> - Gathered from <code>setup</code> module</li>
+                <li><strong>Registered</strong> - Captured from task output</li>
+                <li><strong>Play vars</strong> - Defined in playbook</li>
+                <li><strong>Host/Group vars</strong> - From inventory files</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">16</span>How do you use Jinja2 templates in Ansible?
+        </div>
+        <div class="answer">
+            <p><strong>Template Module:</strong> Process Jinja2 templates with variables</p>
+            <p><strong>Example template (nginx.conf.j2):</strong></p>
+<pre><code>server {
+    listen {{ nginx_port }};
+    server_name {{ server_name }};
+    
+    location / {
+        proxy_pass http://{{ backend_server }};
+    }
+}</code></pre>
+            <p><strong>Playbook:</strong></p>
+<pre><code>- name: Configure nginx
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/default
+  vars:
+    nginx_port: 80
+    server_name: example.com
+    backend_server: 127.0.0.1:3000</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">17</span>What are loops and conditionals in Ansible? Give examples.
+        </div>
+        <div class="answer">
+            <p><strong>Loops - <code>loop</code> keyword:</strong></p>
+<pre><code>- name: Create multiple users
+  user:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - john
+    - jane
+    - bob
+
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+  loop:
+    - nginx
+    - git
+    - curl</code></pre>
+            <p><strong>Conditionals - <code>when</code> keyword:</strong></p>
+<pre><code>- name: Install nginx on Ubuntu
+  apt:
+    name: nginx
+  when: ansible_os_family == "Debian"
+
+- name: Restart if changed
+  service:
+    name: nginx
+    state: restarted
+  when: config_changed.changed</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">18</span>Difference between import_tasks and include_tasks
+        </div>
+        <div class="answer">
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>import_tasks</th>
+                    <th>include_tasks</th>
+                </tr>
+                <tr>
+                    <td>Static/Dynamic</td>
+                    <td>Static (processed at parse time)</td>
+                    <td>Dynamic (at execution)</td>
+                </tr>
+                <tr>
+                    <td>Loops</td>
+                    <td>Not supported</td>
+                    <td>Supported</td>
+                </tr>
+                <tr>
+                    <td>Conditionals</td>
+                    <td>Limited</td>
+                    <td>Supported with conditions</td>
+                </tr>
+                <tr>
+                    <td>Use case</td>
+                    <td>Reuse fixed task sets</td>
+                    <td>Flexible, dynamic execution</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- AD-HOC, INVENTORY, CONNECTIONS SECTION -->
+<div class="section page-break">
+    <div class="section-title">AD-HOC, INVENTORY, CONNECTIONS</div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">19</span>What is an ad hoc command? Give examples.
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> One-off Ansible commands executed directly (not in playbook).</p>
+<pre><code># Ping all hosts
+ansible all -m ping
+
+# Run shell command
+ansible webservers -m shell -a "uptime"
+
+# Install package
+ansible dbservers -m apt -a "name=mysql-server state=present" -b
+
+# Gather facts
+ansible all -m setup
+
+# Copy file
+ansible webservers -m copy -a "src=/etc/config dest=/etc/config"
+
+# Restart service
+ansible webservers -m service -a "name=nginx state=restarted" -b</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">20</span>How do you target specific hosts/groups from CLI?
+        </div>
+        <div class="answer">
+<pre><code># All hosts
+ansible all -m ping
+
+# Specific group
+ansible webservers -m ping
+
+# Specific host
+ansible web1.example.com -m ping
+
+# Multiple groups
+ansible webservers,databases -m ping
+
+# Exclude group
+ansible all:!databases -m ping
+
+# Range
+ansible web[0:2] -m ping
+
+# Wildcard
+ansible web*.example.com -m ping</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">21</span>How do you set up SSH access for Ansible?
+        </div>
+        <div class="answer">
+            <p><strong>Key-based (Recommended):</strong></p>
+<pre><code># Generate SSH key on control node
+ssh-keygen -t rsa -b 4096
+
+# Copy public key to managed nodes
+ssh-copy-id -i ~/.ssh/id_rsa.pub user@managed_host
+
+# Verify connectivity
+ansible all -m ping</code></pre>
+            <p><strong>Password-based:</strong></p>
+<pre><code># Install sshpass
+sudo apt install sshpass
+
+# Use in inventory
+[webservers]
+web1 ansible_user=admin ansible_password=pass123</code></pre>
+            <p><strong>In ansible.cfg:</strong></p>
+<pre><code>[defaults]
+private_key_file = ~/.ssh/id_rsa
+remote_user = ubuntu</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">22</span>What is ansible.cfg and common settings?
+        </div>
+        <div class="answer">
+            <p><strong>Location priority:</strong></p>
+            <ol>
+                <li>ANSIBLE_CONFIG environment variable</li>
+                <li>./ansible.cfg (current directory)</li>
+                <li>~/.ansible.cfg (home directory)</li>
+                <li>/etc/ansible/ansible.cfg (system)</li>
+            </ol>
+            <p><strong>Common Settings:</strong></p>
+<pre><code>[defaults]
+inventory = /etc/ansible/hosts
+private_key_file = ~/.ssh/id_rsa
+remote_user = ubuntu
+host_key_checking = False
+forks = 5
+timeout = 10
+
+[privilege_escalation]
+become = True
+become_method = sudo
+become_user = root
+become_ask_pass = False</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">23</span>How do you work with dynamic inventory?
+        </div>
+        <div class="answer">
+            <p><strong>AWS Example:</strong></p>
+<pre><code># Install boto3
+pip install boto3
+
+# Use AWS plugin (inventory.aws_ec2.yml)
+plugin: aws_ec2
+regions:
+  - us-east-1
+keyed_groups:
+  - key: tags
+    parent_group: tag</code></pre>
+            <p><strong>Custom script (returns JSON):</strong></p>
+<pre><code>#!/usr/bin/env python3
+import json
+inventory = {
+    "all": {
+        "hosts": ["web1", "web2"],
+        "vars": {"ansible_user": "ubuntu"}
+    }
+}
+print(json.dumps(inventory))</code></pre>
+            <p><strong>Use it:</strong></p>
+<pre><code>ansible-playbook -i inventory.py playbook.yml</code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- SECURITY, VAULT, SECRETS SECTION -->
+<div class="section page-break">
+    <div class="section-title">SECURITY, VAULT, SECRETS</div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">24</span>What is Ansible Vault and when to use it?
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> Encrypts sensitive data (passwords, keys) in files.</p>
+            <p><strong>When to use:</strong></p>
+            <ul>
+                <li>Store passwords, API keys</li>
+                <li>Protect sensitive variables</li>
+                <li>Share playbooks safely</li>
+            </ul>
+            <p><strong>Commands:</strong></p>
+<pre><code># Create encrypted file
+ansible-vault create secrets.yml
+
+# Edit encrypted file
+ansible-vault edit secrets.yml
+
+# Encrypt existing file
+ansible-vault encrypt playbook.yml
+
+# Decrypt file
+ansible-vault decrypt secrets.yml
+
+# Run playbook with vault
+ansible-playbook playbook.yml --ask-vault-pass
+# Or from file
+ansible-playbook playbook.yml --vault-password-file ~/.vault_pass</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">25</span>How do you create, edit, and use encrypted variables?
+        </div>
+        <div class="answer">
+            <p><strong>Create encrypted vars file:</strong></p>
+<pre><code>ansible-vault create secret_vars.yml</code></pre>
+            <p><strong>Content (secret_vars.yml):</strong></p>
+<pre><code>db_password: supersecret123
+api_key: abc123xyz789</code></pre>
+            <p><strong>Use in playbook:</strong></p>
+<pre><code>- hosts: all
+  vars_files:
+    - secret_vars.yml
+  tasks:
+    - name: Connect to database
+      mysql_user:
+        name: admin
+        password: "{{ db_password }}"</code></pre>
+            <p><strong>Run with password prompt:</strong></p>
+<pre><code>ansible-playbook playbook.yml --ask-vault-pass</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">26</span>How do you manage secrets safely in playbooks?
+        </div>
+        <div class="answer">
+            <p><strong>Best Practices:</strong></p>
+            <ol>
+                <li>Use Ansible Vault for sensitive data</li>
+                <li>Store vault password in secure location</li>
+                <li>Never commit passwords to git</li>
+                <li>Use <code>.gitignore</code> for secret files</li>
+                <li>Use external secret management (HashiCorp Vault, AWS Secrets Manager)</li>
+            </ol>
+            <p><strong>Example with external vault:</strong></p>
+<pre><code>- name: Get secret from AWS Secrets Manager
+  aws_secret:
+    name: my-database-password
+  register: db_secret
+
+- name: Use the secret
+  mysql_user:
+    password: "{{ db_secret.secret }}"</code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- ERROR HANDLING, DEBUGGING, PERFORMANCE SECTION -->
+<div class="section page-break">
+    <div class="section-title">ERROR HANDLING, DEBUGGING, PERFORMANCE</div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">27</span>How do you debug a failing task?
+        </div>
+        <div class="answer">
+            <p><strong>Debug Module:</strong></p>
+<pre><code>- name: Print variable
+  debug:
+    var: my_variable
+
+- name: Print message
+  debug:
+    msg: "Value is {{ variable }}"
+
+- name: Debug registered variable
+  debug:
+    var: command_result</code></pre>
+            <p><strong>Verbose Flags:</strong></p>
+<pre><code># Verbose
+ansible-playbook -v playbook.yml
+
+# More verbose
+ansible-playbook -vv playbook.yml
+
+# Most verbose
+ansible-playbook -vvv playbook.yml
+
+# Enable callback plugin
+export ANSIBLE_STDOUT_CALLBACK=debug</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">28</span>What does --check mode do?
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> Dry-run mode - shows what would happen without making changes.</p>
+<pre><code># Dry-run playbook
+ansible-playbook --check playbook.yml
+
+# Dry-run with verbose
+ansible-playbook --check -vv playbook.yml
+
+# Check + diff (show what would change)
+ansible-playbook --check --diff playbook.yml</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">29</span>What is ignore_errors and when to use?
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> Continues playbook even if task fails.</p>
+<pre><code>- name: Run command that may fail
+  shell: /opt/script.sh
+  ignore_errors: yes
+
+- name: Continue execution
+  debug:
+    msg: "This will execute even if above failed"</code></pre>
+            <p><strong>When to use:</strong></p>
+            <ul>
+                <li>Non-critical tasks</li>
+                <li>Tasks with expected failures</li>
+                <li>When you want to log errors and continue</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">30</span>How do you speed up Ansible execution?
+        </div>
+        <div class="answer">
+            <p><strong>Optimization Techniques:</strong></p>
+            <p><strong>1. Increase forks (parallel execution):</strong></p>
+<pre><code>[defaults]
+forks = 20  # Default is 5</code></pre>
+            <p><strong>2. Enable fact caching:</strong></p>
+<pre><code>[defaults]
+gathering = smart
+fact_caching = jsonfile
+fact_caching_connection = /tmp/ansible_facts
+fact_caching_timeout = 86400</code></pre>
+            <p><strong>3. Use async for long tasks:</strong></p>
+<pre><code>- name: Long running task
+  shell: /opt/long_script.sh
+  async: 300  # Timeout 300 seconds
+  poll: 10    # Check every 10 seconds</code></pre>
+            <p><strong>4. Disable unnecessary gathering:</strong></p>
+<pre><code>- hosts: all
+  gather_facts: no  # Skip if not needed</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">31</span>What are Ansible facts and how to use setup?
+        </div>
+        <div class="answer">
+            <p><strong>Facts:</strong> Variables automatically gathered about managed nodes.</p>
+            <p><strong>Common facts:</strong></p>
+            <ul>
+                <li><code>ansible_os_family</code> (Debian, RedHat)</li>
+                <li><code>ansible_distribution</code> (Ubuntu, CentOS)</li>
+                <li><code>ansible_python_version</code></li>
+                <li><code>ansible_processor_cores</code></li>
+                <li><code>ansible_memtotal_mb</code></li>
+            </ul>
+            <p><strong>Gather facts:</strong></p>
+<pre><code># Gather facts on all hosts
+ansible all -m setup
+
+# Filter facts
+ansible all -m setup -a "filter=ansible_os_family"</code></pre>
+            <p><strong>Use in playbook:</strong></p>
+<pre><code>- name: Install package based on OS
+  apt:
+    name: nginx
+  when: ansible_os_family == "Debian"</code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- ANSIBLE TOWER / AWX & ECOSYSTEM SECTION -->
+<div class="section page-break">
+    <div class="section-title">ANSIBLE TOWER / AWX & ECOSYSTEM</div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">32</span>What is Ansible Tower (or AWX)? Key features.
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> Web UI and REST API for Ansible at enterprise scale.</p>
+            <p><strong>Key Features:</strong></p>
+            <ul>
+                <li>Web-based dashboard</li>
+                <li>Role-based access control (RBAC)</li>
+                <li>Job scheduling</li>
+                <li>Credential management</li>
+                <li>Inventory management</li>
+                <li>Workflow execution</li>
+                <li>Audit logging</li>
+                <li>Real-time job output</li>
+            </ul>
+            <p><strong>Use Cases:</strong></p>
+            <ul>
+                <li>Multi-team automation</li>
+                <li>Compliance and governance</li>
+                <li>Self-service automation</li>
+                <li>Integration with external tools</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">33</span>How do you schedule jobs or control RBAC with Tower?
+        </div>
+        <div class="answer">
+            <p><strong>Job Scheduling:</strong></p>
+            <ul>
+                <li>Create schedule in Tower UI</li>
+                <li>Select playbook and inventory</li>
+                <li>Set frequency (daily, weekly, monthly)</li>
+                <li>Specify execution time</li>
+            </ul>
+            <p><strong>RBAC:</strong></p>
+            <ul>
+                <li>Users, Teams, Organizations</li>
+                <li>Permissions (admin, read, execute)</li>
+                <li>Credential access control</li>
+                <li>Template access levels</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">34</span>What is Ansible Galaxy? How to use roles?
+        </div>
+        <div class="answer">
+            <p><strong>Definition:</strong> Community hub for sharing Ansible roles and collections.</p>
+            <p><strong>Usage:</strong></p>
+<pre><code># Search roles
+ansible-galaxy search nginx
+
+# Install role
+ansible-galaxy install geerlingguy.nginx
+
+# Use in playbook
+- hosts: webservers
+  roles:
+    - geerlingguy.nginx
+
+# List installed roles
+ansible-galaxy list</code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- SCENARIO-BASED / PRACTICAL QUESTIONS SECTION -->
+<div class="section page-break">
+    <div class="section-title">SCENARIO-BASED / PRACTICAL QUESTIONS</div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">35</span>Design Ansible solution for web server (Nginx) on multiple nodes
+        </div>
+        <div class="answer">
+            <p><strong>Playbook structure:</strong></p>
+<pre><code>---
+- name: Configure Nginx web servers
+  hosts: webservers
+  become: yes
+  vars:
+    nginx_user: www-data
+    nginx_port: 80
+    
+  roles:
+    - role: geerlingguy.nginx
+      vars:
+        nginx_vhosts:
+          - name: example.com
+            upstream_servers:
+              - "127.0.0.1:3000"
+
+  tasks:
+    - name: Ensure nginx is started
+      service:
+        name: nginx
+        state: started
+        enabled: yes</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">36</span>How to perform rolling updates with zero downtime?
+        </div>
+        <div class="answer">
+<pre><code>---
+- name: Rolling update with zero downtime
+  hosts: webservers
+  serial: 1  # Update one server at a time
+  
+  tasks:
+    - name: Remove from load balancer
+      uri:
+        url: "http://lb.example.com/remove/{{ inventory_hostname }}"
+        method: POST
+    
+    - name: Stop application
+      service:
+        name: app
+        state: stopped
+    
+    - name: Deploy new version
+      git:
+        repo: https://github.com/example/app.git
+        dest: /opt/app
+        version: v2.0
+    
+    - name: Start application
+      service:
+        name: app
+        state: started
+    
+    - name: Health check
+      uri:
+        url: "http://{{ inventory_hostname }}:8000/health"
+      register: health
+      until: health.status == 200
+      retries: 5
+    
+    - name: Add back to load balancer
+      uri:
+        url: "http://lb.example.com/add/{{ inventory_hostname }}"
+        method: POST</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">37</span>How to enforce security baselines/compliance?
+        </div>
+        <div class="answer">
+<pre><code>---
+- name: Security baseline compliance
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: Disable root SSH login
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PermitRootLogin'
+        line: 'PermitRootLogin no'
+      notify: Restart SSH
+    
+    - name: Set SSH port
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?Port'
+        line: 'Port 2222'
+      notify: Restart SSH
+    
+    - name: Update all packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+    
+    - name: Install security tools
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - fail2ban
+        - aide
+        - auditd
+    
+    - name: Enable firewall
+      ufw:
+        state: enabled
+        policy: deny
+        direction: incoming
+    
+    - name: Allow SSH
+      ufw:
+        rule: allow
+        port: '2222'
+        proto: tcp
+  
+  handlers:
+    - name: Restart SSH
+      service:
+        name: ssh
+        state: restarted</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">38</span>How to integrate Ansible with Jenkins CI/CD?
+        </div>
+        <div class="answer">
+<pre><code># Jenkins pipeline (Groovy)
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/example/repo.git'
+            }
+        }
+        
+        stage('Run Playbook') {
+            steps {
+                sh 'ansible-playbook -i inventory.ini deploy.yml --vault-password-file /var/lib/jenkins/.vault_pass'
+            }
+        }
+        
+        stage('Health Check') {
+            steps {
+                sh 'ansible-playbook health_check.yml'
+            }
+        }
+    }
+}</code></pre>
+        </div>
+    </div>
+    
+    <div class="qa-block">
+        <div class="question">
+            <span class="question-number">39</span>How to structure large Ansible project with roles?
+        </div>
+        <div class="answer">
+<div class="tree">project/
+├── inventory/
+│   ├── production
+│   ├── staging
+│   └── development
+├── roles/
+│   ├── common/
+│   ├── webserver/
+│   ├── database/
+│   └── monitoring/
+├── playbooks/
+│   ├── site.yml
+│   ├── deploy.yml
+│   └── maintenance.yml
+├── group_vars/
+│   ├── all.yml
+│   ├── webservers.yml
+│   └── databases.yml
+├── host_vars/
+│   └── web1.example.com.yml
+├── library/
+│   └── custom_module.py
+├── filter_plugins/
+│   └── custom_filter.py
+├── ansible.cfg
+└── README.md</div>
+        </div>
+    </div>
+</div>
+
+<!-- QUICK REFERENCE TIPS SECTION -->
+<div class="section page-break">
+    <div class="section-title">QUICK REFERENCE TIPS</div>
+    
+    <div class="tips-box">
+        <h4>Before Interview:</h4>
+        <ul>
+            <li>Practice writing playbooks</li>
+            <li>Know your projects deeply</li>
+            <li>Understand Ansible architecture</li>
+            <li>Be ready for hands-on coding</li>
+            <li>Prepare real-world scenarios</li>
+        </ul>
+    </div>
+    
+    <div class="tips-box">
+        <h4>Common Mistakes to Avoid:</h4>
+        <ul>
+            <li>Forgetting <code>become: yes</code> for sudo tasks</li>
+            <li>Not using idempotent modules</li>
+            <li>Poor variable naming</li>
+            <li>Missing error handling</li>
+            <li>Not using templates for config files</li>
+        </ul>
+    </div>
+    
+    <div class="tips-box">
+        <h4>Speed Tips:</h4>
+        <ul>
+            <li>Use roles for reusability</li>
+            <li>Cache facts for performance</li>
+            <li>Use async for parallel execution</li>
+            <li>Optimize inventory management</li>
+        </ul>
+    </div>
+    
+    <div class="tips-box">
+        <h4>Additional Resources:</h4>
+        <ul>
+            <li>Official Docs: https://docs.ansible.com</li>
+            <li>Ansible Galaxy: https://galaxy.ansible.com</li>
+            <li>Red Hat Training: https://www.redhat.com/en/services/training</li>
+            <li>Community: https://www.ansible.com/community</li>
+        </ul>
+    </div>
+</div>
+
+<div class="footer">
+    <p><strong>Last Updated:</strong> November 28, 2025</p>
+    <p><strong>Prepared for:</strong> DevOps/SRE Interview Candidates</p>
+</div>
+
+</body>
+</html>
+

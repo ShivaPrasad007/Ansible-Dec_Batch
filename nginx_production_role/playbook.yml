@@ -1,0 +1,43 @@
+---
+# Example playbook using the NGINX role for different app types
+
+- name: Deploy Static Website
+  hosts: web1
+  become: yes
+  roles:
+    - role: nginx
+      vars:
+        nginx_app_type: static
+        nginx_domain: static.example.com
+        nginx_root: /var/www/static
+        nginx_static_src: files/static/
+
+- name: Deploy MERN App
+  hosts: web2
+  become: yes
+  roles:
+    - role: nginx
+      vars:
+        nginx_app_type: mern
+        nginx_domain: mern.example.com
+        nginx_proxy_port: 3000
+
+- name: Deploy Flask App
+  hosts: web3
+  become: yes
+  roles:
+    - role: nginx
+      vars:
+        nginx_app_type: flask
+        nginx_domain: flask.example.com
+        nginx_proxy_port: 8000
+
+- name: Deploy Django App
+  hosts: web4
+  become: yes
+  roles:
+    - role: nginx
+      vars:
+        nginx_app_type: django
+        nginx_domain: django.example.com
+        nginx_proxy_port: 8000

@@ -1,0 +1,50 @@
+---
+- name: Demo on Handlers
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Copy Html file
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+
+    - name: Copy Configuration file
+      copy:
+        src: celebratian.com
+        dest: /etc/nginx/sites-available/celebratian.com
+        mode: '0644'
+        
+
+    - name: Create Symbolic Link
+      file:
+        src: /etc/nginx/sites-available/celebratian.com
+        dest: /etc/nginx/sites-enabled/celebratian.com
+        state: link
+        
+
+    - name: Remove the Defult Config
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: Restart the Nginx Service
+
+  handlers:
+    - name: Restart the Nginx Service
+      become: yes
+      service: 
+        name: nginx
+        state: stopped
+      notify: Restart2
+
+    - name: Restart2
+      become: yes
+      service: 
+        name: nginx
+        state: started 
+      

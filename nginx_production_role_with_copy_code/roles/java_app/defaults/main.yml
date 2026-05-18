@@ -1,0 +1,9 @@
+---
+java_app_name: my-java-app
+java_app_port: 8080
+java_app_dir: /opt/app/{{ java_app_name }}
+java_version: 11
+java_build_tool: maven  # or gradle
+java_jar_file: target/java-app-1.0-SNAPSHOT.jar
+java_start_command: "java -Dspring.profiles.active=prod -Xmx512m -Xms256m -jar {{ java_jar_file }}"
+java_user: java

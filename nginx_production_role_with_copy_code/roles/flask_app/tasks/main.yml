@@ -1,0 +1,45 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Install Python
+  apt:
+    name: python3
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Install Python packages
+  apt:
+    name:
+      - python3-flask
+      - python3-gunicorn
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Create app directory
+  file:
+    path: "{{ flask_app_dir }}"
+    state: directory
+    mode: '0755'
+    recurse: yes
+
+- name: Copy Flask app code
+  copy:
+    src: "{{ flask_app_src }}"
+    dest: "{{ flask_app_dir }}"
+  when: flask_app_src is defined
+
+- name: Start Flask app
+  shell: cd {{ flask_app_dir }} && nohup {{ flask_start_command }} </dev/null >/dev/null 2>&1 &
+  async: 3600
+  poll: 0
+  register: flask_app_started
+  notify: Restart Flask app
+  become: yes
+
+# - name: Wait for app to start
+#   wait_for:
+#     port: "{{ flask_app_port }}"
+#     timeout: 60

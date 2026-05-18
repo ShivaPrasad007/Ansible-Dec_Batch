@@ -1,0 +1,10 @@
+---
+- name: Install nginx using playbook variables on webservers
+  hosts: webservers
+  tasks:
+    - name: Print the data
+      debug:
+        msg: |
+          Host : {{ inventory_hostname }}
+          Package: {{ package_name }}
+          Port: {{ web_port }}

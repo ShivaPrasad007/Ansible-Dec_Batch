@@ -1,0 +1,22 @@
+---
+- name: Print Ansible built-in facts for webservers
+  hosts: webservers
+  gather_facts: no
+
+  tasks:
+    - name: Gather facts
+      setup:
+    - name: Print all facts
+      debug:
+        var: ansible_facts
+
+- name: Print Ansible built-in facts for dbservers with overridden ansible_user
+  hosts: dbservers
+  vars:
+    ansible_user: ec2-user
+  tasks:
+    - name: Gather facts
+      setup:
+    - name: Print all facts
+      debug:
+        var: ansible_facts

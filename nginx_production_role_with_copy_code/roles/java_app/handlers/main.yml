@@ -1,0 +1,9 @@
+---
+- name: Restart Java app
+  command: pkill -f "{{ java_start_command }}"
+  ignore_errors: yes
+  become: yes
+
+- name: Start Java app
+  shell: cd {{ java_app_dir }} && nohup {{ java_start_command }} </dev/null >/dev/null 2>&1 &
+  become: yes
