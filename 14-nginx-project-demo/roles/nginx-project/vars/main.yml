@@ -1,0 +1,6 @@
+---
+# Variables for nginx project
+project_name: myproject
+project_root: /var/www/myproject
+nginx_user: www-data
+nginx_group: www-data

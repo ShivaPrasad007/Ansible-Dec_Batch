@@ -1,0 +1,6 @@
+---
+- name: Deploy Simple Node.js Application
+  hosts: webservers
+  become: false
+  roles:
+    - node-app

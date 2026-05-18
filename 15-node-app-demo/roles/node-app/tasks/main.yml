@@ -1,0 +1,83 @@
+---
+- name: Update package cache
+  apt:
+    update_cache: yes
+  become: true
+
+- name: Install Node.js
+  shell: |
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+    apt-get install -y nodejs
+  become: true
+
+- name: Create application directory
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+  become: true
+
+- name: Create public directory for static files
+  file:
+    path: "{{ app_dir }}/public"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+  become: true
+
+- name: Deploy Node.js application files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ app_dir }}/{{ item.dest }}"
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+  become: true
+  loop:
+    - { src: 'package.json', dest: 'package.json' }
+    - { src: 'server.js', dest: 'server.js' }
+    - { src: 'public/index.html', dest: 'public/index.html' }
+    - { src: 'public/styles.css', dest: 'public/styles.css' }
+    - { src: 'public/script.js', dest: 'public/script.js' }
+
+- name: Install npm dependencies
+  npm:
+    path: "{{ app_dir }}"
+    state: present
+  become: true
+  become_user: ubuntu
+
+- name: Create systemd service file
+  template:
+    src: node-app.service.j2
+    dest: /etc/systemd/system/node-app.service
+    mode: '0644'
+  become: true
+
+- name: Start and enable Node.js application service
+  systemd:
+    name: node-app
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: true
+
+- name: Show deployment summary
+  debug:
+    msg: |
+      🎉 Node.js app deployed successfully!
+      📁 Location: {{ app_dir }}
+      🌐 Access the app at: http://{{ ansible_host }}:{{ app_port }}
+      🔧 Service: node-app (systemd)
+
+- name: List deployed files
+  command: ls -la {{ app_dir }}
+  register: deployed_files
+  become: true
+
+- name: Show deployed files
+  debug:
+    msg: "{{ deployed_files.stdout }}"

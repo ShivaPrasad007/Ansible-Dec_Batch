@@ -1,0 +1,42 @@
+---
+- name: Example of Ansible Facts and Jinja2
+  hosts: all
+
+  tasks:
+    # ============ DISPLAY ANSIBLE FACTS ============
+    - name: Show basic facts
+      debug:
+        msg: |
+          Hostname: {{ ansible_hostname }}
+          OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+          Memory: {{ ansible_memtotal_mb }} MB
+          CPUs: {{ ansible_processor_cores }}
+
+    # ============ JINJA FILTERS ============
+    - name: Show Jinja filters
+      debug:
+        msg: |
+          Uppercase: {{ ansible_hostname | upper }}
+          Memory in GB: {{ (ansible_memtotal_mb / 1024) | round(2) }}
+          Default: {{ my_undefined_var | default('fallback_value') }}
+
+    # ============ JINJA CONDITIONS IN TASKS ============
+    - name: Task for high memory servers
+      debug:
+        msg: "This server has {{ ansible_memtotal_mb }} MB RAM (high memory)"
+      when: ansible_memtotal_mb > 1024
+
+    # ============ JINJA LOOPS IN TASKS ============
+    - name: Show all network interfaces
+      debug:
+        msg: "Interface: {{ item }}"
+      loop: "{{ ansible_interfaces }}"
+
+    # ============ DEPLOY TEMPLATE WITH ALL FEATURES ============
+    - name: Deploy server info page (webservers only)
+      template:
+        src: templates/server_info.html.j2
+        dest: /var/www/html/info.html
+      become: yes
+      when: "'webservers' in group_names"
+

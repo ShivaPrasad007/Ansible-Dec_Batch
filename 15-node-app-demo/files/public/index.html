@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITD Node.js Application</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-code"></i>
+                    <h1>ITD Node.js App</h1>
+                </div>
+                <div class="status">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span id="statusText">Connecting...</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h2><i class="fas fa-rocket"></i> Welcome to ITD Node.js Application</h2>
+                    <p>A modern web application built with Express.js and deployed via Ansible</p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="uptime">0</span>
+                            <span class="stat-label">Uptime (s)</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="currentTime">--:--</span>
+                            <span class="stat-label">Current Time</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <h2><i class="fas fa-star"></i> Application Features</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>Express Server</h3>
+                        <p>Fast and minimalist web framework for Node.js</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <h3>REST API</h3>
+                        <p>Health check and time endpoints</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3>Modern UI</h3>
+                        <p>Responsive design with smooth animations</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3>Ansible Deployed</h3>
+                        <p>Automated deployment and configuration</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="interactive">
+                <h2><i class="fas fa-play-circle"></i> Interactive Demo</h2>
+                <div class="demo-grid">
+                    <div class="demo-card">
+                        <h3>API Health Check</h3>
+                        <button id="healthBtn" class="demo-btn">
+                            <i class="fas fa-heartbeat"></i> Check Health
+                        </button>
+                        <div id="healthResult" class="result-box"></div>
+                    </div>
+                    <div class="demo-card">
+                        <h3>Server Time</h3>
+                        <button id="timeBtn" class="demo-btn">
+                            <i class="fas fa-clock"></i> Get Time
+                        </button>
+                        <div id="timeResult" class="result-box"></div>
+                    </div>
+                    <div class="demo-card">
+                        <h3>Click Counter</h3>
+                        <button id="counterBtn" class="demo-btn">
+                            <i class="fas fa-mouse-pointer"></i> Click Me!
+                        </button>
+                        <div id="counterResult" class="result-box">
+                            <span id="clickCount">0</span> clicks
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 ITD Node.js Application. Built with Express.js</p>
+                <div class="footer-links">
+                    <a href="/api/health" target="_blank">API Health</a>
+                    <a href="/api/time" target="_blank">API Time</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

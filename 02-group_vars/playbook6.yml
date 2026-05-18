@@ -1,0 +1,40 @@
+---
+- name: Example using group_vars
+  hosts: webservers
+
+  tasks:
+    - name: Install package from group_vars
+      apt:
+        name: "{{ package_name }}"
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: Display group variables
+      debug:
+        msg: |
+          Host: {{ inventory_hostname }}
+          Package: {{ package_name }}
+          Port: {{ web_port }}
+          Environment: {{ env }}
+          Max Clients: {{ max_clients }}
+          Log Level: {{ log_level }}
+
+- name: Example for dbservers
+  hosts: dbservers
+
+  tasks:
+    - name: Install package from group_vars
+      apt:
+        name: "{{ package_name }}"
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: Display db server variables
+      debug:
+        msg: |
+          Host: {{ inventory_hostname }}
+          Package: {{ package_name }}
+          Port: {{ db_port }}
+          Environment: {{ env }}

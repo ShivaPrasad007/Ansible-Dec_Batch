@@ -1,0 +1,6 @@
+---
+- name: Deploy Simple Nginx Project
+  hosts: webservers
+
+  roles:
+    - nginx-project

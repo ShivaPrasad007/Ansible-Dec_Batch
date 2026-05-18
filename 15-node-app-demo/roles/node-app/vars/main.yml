@@ -1,0 +1,7 @@
+---
+# Node.js Application Variables
+app_name: "node-app"
+app_port: 3000
+app_dir: "{{ ansible_env.HOME }}/node-app"
+node_version: "18"
+npm_version: "latest"

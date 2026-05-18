@@ -1,0 +1,52 @@
+---
+- name: Demonstrate handler effects clearly
+  hosts: localhost
+
+  tasks:
+    - name: Install Npm and nodejs
+      apt:
+        name:
+          - npm
+          - nodejs
+        state: present
+      become: yes
+
+    - name: Copy the code
+      copy:
+        src: express_app
+        dest: ~/express_app
+      become: yes
+
+    - name: Install dependencies
+      npm:
+        path: ~/express_app
+        state: present
+      become: yes
+
+    - name: Start the server
+      npm:
+        path: ~/express_app
+        state: start
+      become: yes
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+      become: yes
+      notify: Restart nginx and show effect
+
+    - name: delete the default configuration in nginx and replace with our own
+      copy:
+        src: nginx/default.conf
+        dest: /etc/nginx/sites-enabled/default
+      become: yes
+      notify: Restart nginx and show effect
+
+
+  handlers:
+    - name: Restart nginx and show effect
+      debug:
+        msg: "🔄 HANDLER EXECUTING: Simulating nginx restart at {{ ansible_date_time.iso8601 }}"
+

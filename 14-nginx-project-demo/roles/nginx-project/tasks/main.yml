@@ -1,0 +1,57 @@
+---
+# Main tasks for nginx project deployment
+- name: Update package cache
+  apt:
+    update_cache: yes
+  become: true
+
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+  become: true
+
+- name: Create web directory
+  file:
+    path: /var/www/html
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+  become: true
+
+- name: Deploy project files
+  copy:
+    src: "{{ item.src }}"
+    dest: "/var/www/html/{{ item.dest }}"
+    owner: www-data
+    group: www-data
+    mode: '0644'
+  become: true
+  loop:
+    - { src: 'index.html', dest: 'index.html' }
+    - { src: 'styles.css', dest: 'styles.css' }
+    - { src: 'script.js', dest: 'script.js' }
+
+- name: Start and enable nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  become: true
+
+- name: Show deployment summary
+  debug:
+    msg: |
+      🎉 Project deployed successfully!
+      📁 Location: /var/www/html
+      🌐 Access the site at: http://{{ ansible_host }}
+
+- name: List deployed files
+  command: ls -la /var/www/html
+  register: file_list
+  become: true
+
+- name: Show deployed files
+  debug:
+    msg: "{{ file_list.stdout }}"

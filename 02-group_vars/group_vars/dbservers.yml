@@ -1,0 +1,7 @@
+---
+# Group variables for webservers group
+package_name: mysql-server
+db_port: 3306
+env: production
+max_connections: 100
+max_threads: 100

@@ -1,0 +1,7 @@
+---
+# Group variables for webservers group
+package_name: nginx
+web_port: 80
+env: production
+max_clients: 100
+log_level: info

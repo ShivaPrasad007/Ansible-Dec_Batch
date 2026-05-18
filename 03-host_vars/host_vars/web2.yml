@@ -1,0 +1,10 @@
+---
+# Host-specific variables for web2
+ansible_host: 43.204.212.9
+ansible_user: ubuntu
+ansible_ssh_private_key_file: /Users/itd/TEMP/Ansible/dec2025.pem
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+package_name: nginx
+web_port: 8080
+env: staging
+server_name: web2-server

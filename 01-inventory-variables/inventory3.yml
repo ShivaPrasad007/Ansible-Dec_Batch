@@ -1,0 +1,21 @@
+all:
+  children:
+    webservers:
+      vars:
+        env: production
+        ansible_user: ubuntu
+        ansible_ssh_private_key_file: /Users/itd/TEMP/Ansible/dec2025.pem
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+      hosts:
+        web1:
+          ansible_host: 3.110.224.103
+          my_package: nginx
+          env: development
+        web2:
+          ansible_host: 43.204.212.9
+          my_package: apache2
+          env: test
+        web3:
+          ansible_host: 15.207.221.25
+          my_package: mysql-server
+          env: staging

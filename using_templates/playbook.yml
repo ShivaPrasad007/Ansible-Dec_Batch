@@ -1,0 +1,41 @@
+---
+- name: Demo on Handlers
+  hosts: web1
+  become: yes
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Copy index
+      copy:
+        src: files/index2.html
+        dest: /var/www/html/index2.html
+
+    - name: Copy celebratian.com nginx config
+      copy:
+        src: files/celebratian.com
+        dest: /etc/nginx/sites-available/celebratian.com
+        mode: '0644'
+      
+    - name: Enable celebratian.com site
+      file:
+        src: /etc/nginx/sites-available/celebratian.com
+        dest: /etc/nginx/sites-enabled/celebratian.com
+        state: link
+        force: yes
+
+    - name: Remove default nginx site from sites-enabled
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: Restart nginx
+
+  handlers:
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: reload
+      become: yes

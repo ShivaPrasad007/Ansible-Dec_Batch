@@ -1,0 +1,15 @@
+---
+- name: Example using variables from inventory
+  hosts: webservers
+
+  tasks:
+    - name: Install package from inventory variable
+      apt:
+        name: "{{ my_package }}"
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: Display port from inventory
+      debug:
+        msg: "{{ my_package }} installed on {{ env }} environment"

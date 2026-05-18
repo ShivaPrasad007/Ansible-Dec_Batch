@@ -1,0 +1,75 @@
+---
+- name: Example of Meta Tasks
+  hosts: webservers
+
+  tasks:
+    # ============ flush_handlers ============
+    # Runs handlers immediately instead of waiting until end
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+      become: yes
+      notify: Restart nginx
+
+    - name: Flush handlers now (don't wait until end)
+      meta: flush_handlers
+
+    - name: This runs AFTER nginx restart
+      debug:
+        msg: "Nginx has been restarted already!"
+
+    # ============ clear_facts ============
+    - name: Show current hostname fact
+      debug:
+        msg: "Hostname: {{ ansible_hostname }}"
+
+    - name: Clear all gathered facts
+      meta: clear_facts
+
+    - name: Try to show hostname (will fail - facts cleared)
+      debug:
+        msg: "Hostname: {{ ansible_hostname | default('FACTS CLEARED') }}"
+
+    # ============ refresh_inventory ============
+    - name: Refresh inventory (re-read inventory file)
+      meta: refresh_inventory
+
+    - name: Show inventory refreshed
+      debug:
+        msg: "Inventory refreshed for {{ inventory_hostname }}"
+
+    # ============ end_play ============
+    - name: Check if we should continue
+      set_fact:
+        should_continue: true
+
+    - name: End play early if condition met
+      meta: end_play
+      when: not should_continue | default(false)
+
+    - name: This task runs because should_continue is true
+      debug:
+        msg: "Play continued successfully!"
+
+  handlers:
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
+
+# ============ end_host example ============
+- name: Example of end_host meta
+  hosts: all
+
+  tasks:
+    - name: Skip db servers early
+      meta: end_host
+      when: "'dbservers' in group_names"
+
+    - name: This only runs on webservers
+      debug:
+        msg: "Running on webserver: {{ inventory_hostname }}"
+

@@ -1,0 +1,38 @@
+---
+- name: Install nginx using playbook variables
+  hosts: webservers
+  vars:
+    package_name: nginx
+    web_port: 80
+    env: production
+
+  tasks:
+    - name: Install package from playbook vars
+      apt:
+        name: "{{ package_name }}"
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: Display playbook variables
+      debug:
+        msg: "{{ package_name }} installed on port {{ web_port }} in {{ env }} environment"
+
+- name: Install mysql using playbook variables
+  hosts: dbservers
+  vars:
+    package_name: mysql-server
+    db_port: 3306
+    env: production
+
+  tasks:
+    - name: Install package from playbook vars
+      apt:
+        name: "{{ package_name }}"
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: Display playbook variables
+      debug:
+        msg: "{{ package_name }} installed on port {{ db_port }} in {{ env }} environment"

@@ -1,0 +1,7 @@
+---
+- name: Example of Ansible Roles
+  hosts: webservers
+
+  roles:
+    - webserver
+

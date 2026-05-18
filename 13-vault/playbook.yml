@@ -1,0 +1,31 @@
+---
+- name: Example of Ansible Vault
+  hosts: webservers
+  vars_files:
+    - secrets.yml
+
+  tasks:
+    - name: Display secret values (loaded from vault)
+      debug:
+        msg: |
+          DB Password: {{ db_password }}
+          API Key: {{ api_key }}
+          Admin User: {{ admin_user }}
+          Admin Email: {{ admin_email }}
+
+    - name: Create config file with secrets
+      copy:
+        dest: /tmp/app_config.txt
+        content: |
+          # Application Config
+          DB_PASSWORD={{ db_password }}
+          API_KEY={{ api_key }}
+          ADMIN_USER={{ admin_user }}
+          ADMIN_EMAIL={{ admin_email }}
+        mode: '0600'
+      become: yes
+
+    - name: Show config file created
+      debug:
+        msg: "Config file created at /tmp/app_config.txt with secrets"
+

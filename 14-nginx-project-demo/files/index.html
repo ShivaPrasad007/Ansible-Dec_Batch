@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITD Simple Project</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to ITD Simple Project</h1>
+            <p>Deployed with Ansible & Nginx</p>
+        </header>
+
+        <main>
+            <section class="hero">
+                <h2>About This Project</h2>
+                <p>This is a simple web project demonstrating automated deployment using Ansible and Nginx.</p>
+                <button id="clickMe">Click Me!</button>
+                <p id="message"></p>
+            </section>
+
+            <section class="features">
+                <h2>Features</h2>
+                <div class="feature-grid">
+                    <div class="feature">
+                        <h3>🚀 Fast Deployment</h3>
+                        <p>Automated deployment with Ansible</p>
+                    </div>
+                    <div class="feature">
+                        <h3>⚡ High Performance</h3>
+                        <p>Optimized Nginx configuration</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🔒 Security</h3>
+                        <p>Security headers and best practices</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 ITD Simple Project. Deployed on {{ ansible_date_time.date }}</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

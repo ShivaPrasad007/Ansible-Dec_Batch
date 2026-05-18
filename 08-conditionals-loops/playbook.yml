@@ -1,0 +1,42 @@
+---
+- name: Example of conditionals (when) and loops
+  hosts: all
+
+  tasks:
+    # ============ WHEN CONDITION ============
+    - name: Run only on webservers
+      debug:
+        msg: "This is a webserver: {{ inventory_hostname }}"
+      when: "'webservers' in group_names"
+
+    - name: Run only on dbservers
+      debug:
+        msg: "This is a database server: {{ inventory_hostname }}"
+      when: "'dbservers' in group_names"
+
+    # ============ LOOP ============
+    - name: Install multiple packages using loop
+      apt:
+        name: "{{ item }}"
+        state: present
+      become: yes
+      loop:
+        - curl
+        - wget
+        - vim
+
+    # ============ LOOP WITH WHEN ============
+    - name: Install web packages only on webservers
+      apt:
+        name: "{{ item }}"
+        state: present
+      become: yes
+      loop:
+        - nginx
+        - htop
+      when: "'webservers' in group_names"
+
+    - name: Show all installed packages
+      debug:
+        msg: "Installed: curl, wget, vim on {{ inventory_hostname }}"
+

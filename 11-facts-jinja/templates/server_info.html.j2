@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Server Info - {{ inventory_hostname }}</title>
+</head>
+<body>
+    <h1>Server Information</h1>
+
+    {# ============ ANSIBLE FACTS ============ #}
+    <h2>System Facts</h2>
+    <ul>
+        <li>Hostname: {{ ansible_hostname }}</li>
+        <li>OS: {{ ansible_distribution }} {{ ansible_distribution_version }}</li>
+        <li>Kernel: {{ ansible_kernel }}</li>
+        <li>Architecture: {{ ansible_architecture }}</li>
+        <li>CPU Cores: {{ ansible_processor_cores }}</li>
+        <li>Total Memory: {{ ansible_memtotal_mb }} MB</li>
+    </ul>
+
+    {# ============ JINJA FILTERS ============ #}
+    <h2>Jinja Filters Examples</h2>
+    <ul>
+        <li>Hostname (uppercase): {{ ansible_hostname | upper }}</li>
+        <li>Hostname (lowercase): {{ ansible_hostname | lower }}</li>
+        <li>Memory in GB: {{ (ansible_memtotal_mb / 1024) | round(2) }} GB</li>
+        <li>Default value: {{ undefined_var | default('Not Set') }}</li>
+    </ul>
+
+    {# ============ JINJA CONDITIONS ============ #}
+    <h2>Jinja Conditions</h2>
+    {% if ansible_memtotal_mb > 1024 %}
+    <p>This server has more than 1GB RAM</p>
+    {% else %}
+    <p>This server has 1GB or less RAM</p>
+    {% endif %}
+
+    {% if 'webservers' in group_names %}
+    <p>Role: Web Server</p>
+    {% elif 'dbservers' in group_names %}
+    <p>Role: Database Server</p>
+    {% else %}
+    <p>Role: Unknown</p>
+    {% endif %}
+
+    {# ============ JINJA LOOPS ============ #}
+    <h2>Network Interfaces (Loop)</h2>
+    <ul>
+    {% for iface in ansible_interfaces %}
+        <li>{{ iface }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Environment Variables (Loop with Filter)</h2>
+    <ul>
+    {% for key, value in ansible_env.items() | list | sort %}
+        {% if key in ['HOME', 'USER', 'PATH', 'SHELL'] %}
+        <li>{{ key }}: {{ value | truncate(50) }}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+</body>
+</html>
+

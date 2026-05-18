@@ -1,0 +1,13 @@
+celebratian_vars:
+  site_title: "celebratian.com"
+  site_name: "celebratian.com"
+  site_description: "This is the celebratian website."
+  server_name: "celebratian.com"
+  document_root: "/var/www/celebratian.com"
+
+itdefined_vars:
+  site_title: "ITDefined.com"
+  site_name: "ITDefined.com"
+  site_description: "This is the ITDefined website."
+  server_name: "itdefined.com"
+  document_root: "/var/www/itdefined.com"

@@ -1,0 +1,33 @@
+---
+- name: Example of templates
+  hosts: webservers
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: Deploy custom page using template
+      template:
+        src: templates/index.html.j2
+        dest: /var/www/html/index.html
+      become: yes
+      notify: Restart nginx
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+      become: yes
+
+  handlers:
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
+

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ server_name }}</title>
+</head>
+<body>
+    <h1>Welcome to IT Defined's Cloud Automation</h1>
+    <p>Server: {{ inventory_hostname }}</p>
+    <p>Hostname: {{ server_name }}</p>
+    <p>IP Address: {{ ansible_host }}</p>
+    <p>Application Port: {{ app_port }}</p>
+</body>
+</html>
+

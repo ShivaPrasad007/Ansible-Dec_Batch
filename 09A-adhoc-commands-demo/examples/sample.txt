@@ -1,0 +1,6 @@
+This is a sample file for demonstrating Ansible ad-hoc commands.
+It contains some example content that can be copied, modified, or used for testing.
+
+Created by: ITD Ansible Demo
+Date: 2025-12-23
+Purpose: Ad-hoc commands demonstration

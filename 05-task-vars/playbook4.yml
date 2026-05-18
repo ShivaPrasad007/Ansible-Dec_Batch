@@ -1,0 +1,40 @@
+---
+- name: Example of task variables for webservers
+  hosts: webservers
+
+  tasks:
+    - name: Install nginx using task-level variables
+      apt:
+        name: "{{ package_name }}"
+        state: present
+        update_cache: yes
+      vars:
+        package_name: nginx
+      become: yes
+
+    - name: Display task variables
+      debug:
+        msg: "Package: {{ package_name }} installed in {{ env }} environment"
+      vars:
+        package_name: nginx
+        env: production
+
+- name: Example of task variables for dbservers
+  hosts: dbservers
+
+  tasks:
+    - name: Install mysql using task-level variables
+      apt:
+        name: "{{ package_name }}"
+        state: present
+        update_cache: yes
+      vars:
+        package_name: mysql-server
+      become: yes
+
+    - name: Display task variables
+      debug:
+        msg: "Package: {{ package_name }} installed on port {{ db_port }}"
+      vars:
+        package_name: mysql-server
+        db_port: 3306

@@ -1,0 +1,11 @@
+---
+- name: Example using extra vars from command line
+  hosts: webservers
+
+  tasks:
+    - name: Display extra vars
+      debug:
+        msg: |
+          Package: {{ package_name | default('nginx') }}
+          Environment: {{ env | default('production') }}
+          Version: {{ version | default('latest') }}

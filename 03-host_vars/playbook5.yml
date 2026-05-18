@@ -1,0 +1,40 @@
+---
+- name: Example using host_vars for webservers
+  hosts: webservers
+
+  tasks:
+    - name: Install package from host_vars
+      apt:
+        name: "{{ package_name }}"
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: Display host-specific variables
+      debug:
+        msg: |
+          Host: {{ inventory_hostname }}
+          Package: {{ package_name }}
+          Port: {{ web_port }}
+          Environment: {{ env }}
+          Server Name: {{ server_name }}
+
+- name: Example using host_vars for dbservers
+  hosts: dbservers
+
+  tasks:
+    - name: Install package from host_vars
+      apt:
+        name: "{{ package_name }}"
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: Display host-specific variables
+      debug:
+        msg: |
+          Host: {{ inventory_hostname }}
+          Package: {{ package_name }}
+          Port: {{ db_port }}
+          Environment: {{ env }}
+          Server Name: {{ server_name }}
